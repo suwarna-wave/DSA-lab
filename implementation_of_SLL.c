@@ -1,21 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Define the node structure
+
+// Define the node structure for singly linked list
 struct Node {
     int data;
     struct Node* next;
 };
 
+
+
 // Function to create a new node
 struct Node* createNode(int data) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
     newNode->data = data;
     newNode->next = NULL;
     return newNode;
 }
 
-// Function to insert a node at the beginning
+
+
+// Function to insert a node at the beginning of the list
 void insertAtBeginning(struct Node** head, int data) {
     struct Node* newNode = createNode(data);
     newNode->next = *head;
@@ -23,7 +32,9 @@ void insertAtBeginning(struct Node** head, int data) {
     printf("Inserted %d at the beginning\n", data);
 }
 
-// Function to insert a node at the end
+
+
+// Function to insert a node at the end of the list
 void insertAtEnd(struct Node** head, int data) {
     struct Node* newNode = createNode(data);
     if (*head == NULL) {
@@ -38,6 +49,8 @@ void insertAtEnd(struct Node** head, int data) {
     temp->next = newNode;
     printf("Inserted %d at the end\n", data);
 }
+
+
 
 // Function to insert a node at a given position
 void insertAtPosition(struct Node** head, int data, int position) {
@@ -61,6 +74,8 @@ void insertAtPosition(struct Node** head, int data, int position) {
     temp->next = newNode;
     printf("Inserted %d at position %d\n", data, position);
 }
+
+
 
 // Function to delete a node with a given key
 void deleteNode(struct Node** head, int key) {
@@ -89,6 +104,26 @@ void deleteNode(struct Node** head, int key) {
     printf("Deleted node with key %d\n", key);
 }
 
+
+
+// Function to search for a node with a given key
+int searchNode(struct Node* head, int key) {
+    struct Node* temp = head;
+    int position = 1;
+    while (temp != NULL) {
+        if (temp->data == key) {
+            printf("Element %d is available at position %d\n", key, position);
+            return position;
+        }
+        temp = temp->next;
+        position++;
+    }
+    printf("Element %d is not available in the list\n", key);
+    return -1;
+}
+
+
+
 // Function to print the linked list
 void printList(struct Node* head) {
     struct Node* temp = head;
@@ -98,6 +133,8 @@ void printList(struct Node* head) {
     }
     printf("NULL\n");
 }
+
+
 
 // Function to free the entire linked list
 void freeList(struct Node** head) {
@@ -109,6 +146,8 @@ void freeList(struct Node** head) {
     }
 }
 
+
+
 int main() {
     struct Node* head = NULL;
 
@@ -116,10 +155,17 @@ int main() {
     insertAtBeginning(&head, 200);
     insertAtEnd(&head, 1000);
     insertAtEnd(&head, 2000);
-    insertAtPosition(&head, 150, 3);
+    printf("Linked List: ");
+    printList(head);
+    insertAtPosition(&head, 150, 4);
 
     printf("Linked List: ");
     printList(head);
+
+    // Search for a node
+    searchNode(head, 1000);
+    searchNode(head, 3000);
+    searchNode(head, 100);
 
     // Delete nodes one by one
     while (head != NULL) {
