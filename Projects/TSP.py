@@ -20,14 +20,18 @@ WIDTH = 1000
 HEIGHT = 700
 
 class Node:
-    def __init__(self, x, y):
+    def __init__(self, x, y, index):
         self.x = x
         self.y = y
         self.radius = 8
         self.color = RED
+        self.index = index
 
     def draw(self, screen):
         pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
+        font = pygame.font.SysFont('Arial', 20)
+        text_surface = font.render(str(self.index), True, BLACK)
+        screen.blit(text_surface, (self.x - 10, self.y - 10))
 
 class TSPSolver:
     def __init__(self, nodes):
@@ -113,6 +117,27 @@ class TSPVisualizer:
         self.font = pygame.font.SysFont('Arial', 20)
         self.paths = []
         self.distance_text = ""
+        self.animation_step = 0
+
+    def draw_arrow(self, start, end, color):
+        pygame.draw.line(self.screen, color, (start.x, start.y), (end.x, end.y), 2)
+        angle = math.atan2(end.y - start.y, end.x - start.x)
+        arrow_length = 10
+        arrow_angle = math.pi / 6
+        pygame.draw.line(self.screen, color, (end.x, end.y), 
+                         (end.x - arrow_length * math.cos(angle - arrow_angle), 
+                          end.y - arrow_length * math.sin(angle - arrow_angle)), 2)
+        pygame.draw.line(self.screen, color, (end.x, end.y), 
+                         (end.x - arrow_length * math.cos(angle + arrow_angle), 
+                          end.y - arrow_length * math.sin(angle + arrow_angle)), 2)
+
+    def animate_path(self, path, color):
+        for i in range(len(path)-1):
+            start = self.nodes[path[i]]
+            end = self.nodes[path[i+1]]
+            self.draw_arrow(start, end, color)
+            pygame.display.flip()
+            pygame.time.delay(200)  # Smooth animation delay
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -122,7 +147,7 @@ class TSPVisualizer:
             
             if event.type == pygame.MOUSEBUTTONDOWN and not self.running:
                 x, y = pygame.mouse.get_pos()
-                self.nodes.append(Node(x, y))
+                self.nodes.append(Node(x, y, len(self.nodes) + 1))
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_c:
@@ -146,6 +171,7 @@ class TSPVisualizer:
             path = solver.two_opt(path)
         self.paths.append((path, BLUE))
         self.distance_text = f"TSP Distance: {solver.path_length(path):.2f}"
+        self.animate_path(path, BLUE)
         self.running = False
 
     def solve_shortest_path(self):
@@ -154,6 +180,7 @@ class TSPVisualizer:
         path = solver.dijkstra(start, end)
         self.paths.append((path, ORANGE))
         self.distance_text = f"Shortest Path Distance: {solver.path_length(path):.2f}"
+        self.animate_path(path, ORANGE)
         self.running = False
 
     def update_display(self):
@@ -162,7 +189,7 @@ class TSPVisualizer:
             node.draw(self.screen)
         for path, color in self.paths:
             for i in range(len(path)-1):
-                pygame.draw.line(self.screen, color, (self.nodes[path[i]].x, self.nodes[path[i]].y), (self.nodes[path[i+1]].x, self.nodes[path[i+1]].y), 2)
+                self.draw_arrow(self.nodes[path[i]], self.nodes[path[i+1]], color)
         text_surface = self.font.render(self.distance_text, True, BLACK)
         self.screen.blit(text_surface, (10, 10))
         pygame.display.flip()
