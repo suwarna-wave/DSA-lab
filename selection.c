@@ -37,12 +37,16 @@ int main() {
     printf("Enter the number of elements: ");
     scanf("%d", &n);
     
-    int arr[n];
+    int *arr = (int *)malloc(n * sizeof(int));
+    if (arr == NULL) {
+        printf("Memory allocation failed\n");
+        return 1;
+    }
     srand(time(0));
     
     // Generate random array
     for (int i = 0; i < n; i++) {
-        arr[i] = rand() % 100;
+        arr[i] = rand();
     }
     
     printf("Original array: ");
@@ -58,7 +62,8 @@ int main() {
     end = clock();
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
     
-    printf("Sorted array: ");
+    free(arr);
+    return 0;
     printArray(arr, n);
     printf("Time taken: %f seconds\n", cpu_time_used);
     
