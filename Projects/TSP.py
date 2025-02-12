@@ -1,12 +1,13 @@
-import pygame
-import math
-import time
-import itertools
-import sys
-import heapq
-import numpy as np
+import pygame        # pip install pygame if you don't have it installed this is for graphical visualization
+import math          # This is for mathematical calculations
+import time          #  This is for time calculations
+import itertools    # This is for iteration brute force
+import sys           # This is for system operations
+import heapq         # This is for heap operations
+import numpy as np    # This is for numerical operations pip install numpy if you don't have it installed
 
-# Colors
+
+# Colors for the GUI window
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -15,11 +16,13 @@ GREEN = (0, 255, 0)
 ORANGE = (255, 165, 0)
 PURPLE = (128, 0, 128)
 
-# Window dimensions
+
+# Window dimensions for the GUI
 WIDTH = 1000
 HEIGHT = 700
 
-class Node:
+
+class Node: # This is the class for the nodes
     def __init__(self, x, y, index):
         self.x = x
         self.y = y
