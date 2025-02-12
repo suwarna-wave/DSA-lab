@@ -29,6 +29,60 @@ For a better understanding of the TSP and its visualization, watch this tutorial
 
 [![TSP Algorithm Visualization](https://img.youtube.com/vi/XaXsJJh-Q5Y/0.jpg)](https://www.youtube.com/watch?v=XaXsJJh-Q5Y)
 
+# Traveling Salesman Problem (TSP) Solver
+
+## 🚀 Overview
+This project is an **interactive Traveling Salesman Problem (TSP) solver** built using **Python** and **Pygame**, integrating multiple algorithms to efficiently optimize travel routes. The solver features real-time visualization and step-by-step pathfinding animations.
+
+## 📌 Features
+- 🗺️ **Real-time TSP visualization** with dynamic path updates.
+- 🏆 Implements multiple algorithms:
+  - **Nearest Neighbor (NN)** for quick approximations.
+  - **2-Opt Heuristic** for route optimization.
+  - **Dijkstra’s Algorithm** for shortest path calculations.
+- 🏗️ **Modular Object-Oriented Design (OOP)** for easy modifications.
+- 🚀 **Performance optimizations** using NumPy and efficient data structures.
+- 🎨 **Intuitive Pygame UI** for interactive route plotting.
+
+## 🔧 Installation
+
+### Prerequisites
+Ensure you have **Python 3.8+** installed. Then, install dependencies:
+```sh
+pip install pygame numpy
+```
+
+### Run the Application
+```sh
+python tsp_solver.py
+```
+
+## 🛠 Usage
+1. **Run the script** and open the interactive Pygame window.
+2. **Click on the map** to place cities.
+3. **Press 'Solve'** to calculate the optimal path using selected algorithms.
+4. **Watch the real-time visualization** as paths update dynamically.
+5. **Experiment** with different algorithms to compare efficiency.
+
+## 📈 Algorithms Used
+| Algorithm        | Time Complexity | Description |
+|-----------------|----------------|-------------|
+| Nearest Neighbor (NN) | O(n²) | Greedy algorithm selecting the nearest unvisited node. |
+| 2-Opt Heuristic | O(n²) | Swaps edges to refine the NN route for better optimization. |
+| Dijkstra's Algorithm | O(n²) | Finds the shortest path between two points efficiently. |
+
+## 🚀 Future Enhancements
+- 🔄 **Implement Genetic Algorithms & Ant Colony Optimization** for smarter TSP solving.
+- 🌍 **Add real-world city coordinates** for practical simulations.
+- 📊 **Performance benchmarking** against larger datasets.
+
+## 🤝 Contributing
+Contributions are welcome! Fork the repo, create a new branch, and submit a **pull request**. 🚀
+
+🚀 **Star this repository** ⭐ if you found it useful! Let's optimize the world together! 🌍
+
+
+
 ### AVL Tree Implementation
 
 Another notable project is the implementation of the AVL Tree, a self-balancing binary search tree. This project covers:
