@@ -12,8 +12,37 @@ class AVLNode:
 
 class AVLTreeVisualizer:
     def __init__(self):
-        # Window setup
         self.root = None
+        self.initial_values = []
+        
+        # Initial input window
+        self.input_window = tk.Tk()
+        self.input_window.title("Initial AVL Tree Values")
+        self.input_window.geometry("400x300")
+        
+        tk.Label(self.input_window, text="Enter values (one per line):").pack(pady=5)
+        self.text_input = tk.Text(self.input_window, height=10, width=30)
+        self.text_input.pack(pady=5)
+        
+        tk.Button(self.input_window, text="Create Tree", command=self.create_initial_tree).pack(pady=5)
+        
+        self.input_window.mainloop()
+
+    def create_initial_tree(self):
+        # Get initial values
+        values = self.text_input.get("1.0", tk.END).strip().split('\n')
+        try:
+            self.initial_values = [int(val) for val in values if val.strip()]
+            if not self.initial_values:
+                messagebox.showerror("Error", "Please enter at least one value")
+                return
+            self.input_window.destroy()
+            self.setup_main_window()
+        except ValueError:
+            messagebox.showerror("Error", "Please enter valid integers only")
+
+    def setup_main_window(self):
+        # Main window setup
         self.window = tk.Tk()
         self.window.title("AVL Tree Visualizer")
         self.window.geometry("1000x700")
@@ -67,6 +96,16 @@ class AVLTreeVisualizer:
         self.window.bind('<Delete>', lambda e: self.delete_value())
         self.window.bind('<Control-s>', lambda e: self.save_tree())
         
+        # Create initial tree
+        for value in self.initial_values:
+            self.root = self.insert(self.root, value)
+        self.draw_tree(self.root, 400, 50, 200)
+        self.update_traversals()
+        
+        self.window.configure(bg=self.colors['bg'])
+        self.canvas.configure(bg=self.colors['bg'])
+        self.window.mainloop()
+
     # Tree Operations
     def get_height(self, node):
         return node.height if node else 0
@@ -109,20 +148,13 @@ class AVLTreeVisualizer:
         self.update_height(root)
         balance = self.get_balance(root)
         
-        # Left Left
         if balance > 1 and value < root.left.value:
             return self.right_rotate(root)
-            
-        # Right Right
         if balance < -1 and value > root.right.value:
             return self.left_rotate(root)
-            
-        # Left Right
         if balance > 1 and value > root.left.value:
             root.left = self.left_rotate(root.left)
             return self.right_rotate(root)
-            
-        # Right Left
         if balance < -1 and value < root.right.value:
             root.right = self.right_rotate(root.right)
             return self.left_rotate(root)
@@ -159,20 +191,13 @@ class AVLTreeVisualizer:
         self.update_height(root)
         balance = self.get_balance(root)
         
-        # Left Left
         if balance > 1 and self.get_balance(root.left) >= 0:
             return self.right_rotate(root)
-            
-        # Left Right
         if balance > 1 and self.get_balance(root.left) < 0:
             root.left = self.left_rotate(root.left)
             return self.right_rotate(root)
-            
-        # Right Right
         if balance < -1 and self.get_balance(root.right) <= 0:
             return self.left_rotate(root)
-            
-        # Right Left
         if balance < -1 and self.get_balance(root.right) > 0:
             root.right = self.right_rotate(root.right)
             return self.left_rotate(root)
@@ -230,9 +255,9 @@ class AVLTreeVisualizer:
         return result
 
     def update_traversals(self):
-        ino = "Inorder: " + " ".join(self.inorder(self.root))
-        pre = "Preorder: " + " ".join(self.preorder(self.root))
-        post = "Postorder: " + " ".join(self.postorder(self.root))
+        ino = "Inorder: " + " ".join(self.inorder(self.root)) if self.root else "Empty"
+        pre = "Preorder: " + " ".join(self.preorder(self.root)) if self.root else "Empty"
+        post = "Postorder: " + " ".join(self.postorder(self.root)) if self.root else "Empty"
         self.traversal_var.set(f"{ino}\n{pre}\n{post}")
 
     # User Actions
@@ -339,11 +364,5 @@ class AVLTreeVisualizer:
         except:
             messagebox.showerror("Error", "Error loading tree!")
 
-    def run(self):
-        self.window.configure(bg=self.colors['bg'])
-        self.canvas.configure(bg=self.colors['bg'])
-        self.window.mainloop()
-
 if __name__ == "__main__":
-    visualizer = AVLTreeVisualizer()
-    visualizer.run()
+    AVLTreeVisualizer()
