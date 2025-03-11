@@ -14,13 +14,12 @@ void createstack(struct stack *st) {
     st->s = (int *)malloc(st->size * sizeof(int));
 }
 
-void displaystack(struct stack st) 
-{
+void displaystack(struct stack st) {
     int i;
     for (i = st.top; i >= 0; i--) {
         printf("%d ", st.s[i]);
     }
-    printf("\n") ;
+    printf("\n");
 }
 
 void push(struct stack *st, int x) {

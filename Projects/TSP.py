@@ -1,6 +1,6 @@
 import pygame        # pip install pygame if you don't have it installed this is for graphical visualization
 import math          # This is for mathematical calculations
-import time          #  This is for time calculations
+import time          #  This is for time calculations and pauses and smooth animations
 import itertools    # This is for iteration brute force
 import sys           # This is for system operations
 import heapq         # This is for heap operations
