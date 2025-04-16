@@ -226,7 +226,7 @@ class DijkstraVisualizer:
                     self.highlighted_elements.append(line)
                     break
 
-        messagebox.showinfo("Shortest Path", f"Shortest distance: {total_distance}\nPath: {' -> '.join(map(str, path))}")
+        messagebox.showinfo("Shortest Path", f"Shortest distance (minimum cost): {total_distance}\nPath: {' -> '.join(map(str, path))}")
 
     def reset(self):
         self.canvas.delete("all")
